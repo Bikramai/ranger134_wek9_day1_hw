@@ -1,0 +1,6 @@
+*, *::before, *::after {   /* Grab everything. And then, if there's anything before everything, grab that. 
+  And if there's anything before and after everything, grab that, too. No matter what grab everything      */
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
