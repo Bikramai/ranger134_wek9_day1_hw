@@ -8,14 +8,14 @@ export const theme = createTheme({ //in function taking as an dict key value pai
     },
     palette: {
         primary: {
-            main: '#00794E'
+            main: '#42a5f5'
         },
         secondary: {
             main: '#242625',
-            light: '#1B2929'
+            light: '#388e3c'
         },
         info: {
-            main: '#44469D'
+            main: '#42a5f5'
         }
     }
 })
