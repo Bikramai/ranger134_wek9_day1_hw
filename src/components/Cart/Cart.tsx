@@ -10,9 +10,6 @@ import {
     Grid,
     Box,
     Button,
-    Dialog,
-    DialogContent,
-    DialogContentText,
     Stack,
     Typography,
     Snackbar,
@@ -27,6 +24,16 @@ import { ShopProps } from '../../customHooks';
 import { shopStyles } from '../Shop';
 import { serverCalls } from '../../api';
 import { MessageType } from '../Auth'; 
+import { Order } from '../Order';
+
+
+
+// make an interface for what our data needs to look like when we checkout
+
+export interface CreateOrderProps {
+    order: ShopProps[]
+}
+
 
 
 export const Cart = () => {
@@ -140,6 +147,46 @@ export const Cart = () => {
 
 
 
+    // create a function to be able to checkout so basically making that api call to our order
+
+    const checkout = async () => {
+
+        const data: CreateOrderProps = {
+            'order': currentCart as ShopProps[]
+        }
+
+        const response = await serverCalls.createOrder(data)
+
+
+
+        if (response.status === 200){ //200 is a good status code
+            remove(cartRef) //this is removing our whole entire cartRef aka emptying our cart
+            .then(() => {
+                console.log("Cart cleared successfully")
+                setMessage('Successfully Checkout')
+                setMessageType('success')
+                setOpen(true)
+                setTimeout(()=>{window.location.reload()}, 2000)
+            })
+            .catch((error) => {
+                console.log("Error clearing cart: " + error.message)
+                setMessage(error.message)
+                setMessageType('error')
+                setOpen(true)
+                setTimeout(()=>{window.location.reload()}, 2000)
+            })
+        } else {
+            setMessage('Error with your Checkout')
+            setMessageType('error')
+            setOpen(true)
+            setTimeout(()=>{window.location.reload()}, 2000)
+        }
+    
+    }
+
+
+
+
     return (
         <Box sx={shopStyles.main}>
             <NavBar />
@@ -151,7 +198,7 @@ export const Cart = () => {
                     >
                         Your Cart
                     </Typography>
-                    <Button color = 'primary' variant = 'contained' onClick={()=>{}} >Checkout 🎄</Button>
+                    <Button color = 'primary' variant = 'contained' onClick={ checkout } >Checkout 🎄</Button>
                 </Stack>
                 <Grid container spacing={3} sx={shopStyles.grid}>
                     {currentCart?.map((cart: ShopProps, index: number) => (
@@ -218,8 +265,26 @@ export const Cart = () => {
                         </Grid>
                     ))}
                 </Grid>
+                <Stack direction = 'column' sx={{width: '75%'}}>
+                    <Typography 
+                        variant = 'h4'
+                        sx={{ marginTop: '100px', marginBottom: '100px'}}
+                        >
+                            Your Orders
+                        </Typography>
+                        <Order />
+                </Stack>
             </Stack>
-
+            <Snackbar
+                open={open}
+                autoHideDuration={2000}
+                onClose={()=> setOpen(false)}
+            >
+                <Alert severity = {messageType}>
+                    {message}
+                </Alert>
+            </Snackbar>
+            
         </Box>
     )
 }
