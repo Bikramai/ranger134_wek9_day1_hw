@@ -4,7 +4,7 @@ import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom'; 
 
 // internal import
-import shopImage from '../../assets/images/abode.jpg' 
+import shopImage from '../../assets/images/banner.jpg' 
 import { NavBar } from '../sharedComponents'; 
 
 interface Props {

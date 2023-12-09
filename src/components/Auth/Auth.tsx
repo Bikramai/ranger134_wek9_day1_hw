@@ -24,7 +24,7 @@ import {
 
 // internal imports
 import { NavBar, InputText, InputPassword } from '../sharedComponents'
-import shopImage from '../../assets/images/abode.jpg'; 
+import shopImage from '../../assets/images/banner.jpg'; 
 
 
 // creating our dictionary/object for our css styling 
